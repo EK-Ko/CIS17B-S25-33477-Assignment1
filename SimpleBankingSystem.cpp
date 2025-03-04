@@ -4,20 +4,19 @@
 using namespace std;
 
 class BankAccount {
-    private:
+    private: // private member variables
         string accountHolderName;
         string accountNumber;
         double balance;
     
-    public:
-        // constructor to initialize
+    public: // public member functions
+        // constructor to initialize the account
         BankAccount(string name, double initialBalance) {
             accountHolderName = name;
             accountNumber = to_string(rand() % 999999999); //random account number
             balance = initialBalance;
         }
-    
-        // deposit
+
         void deposit(double amount) {
             if (amount > 0) {
                 balance += amount;
@@ -27,7 +26,6 @@ class BankAccount {
             }
         }
     
-        // withdraw
         void withdraw(double amount) {
             if (amount > 0 && amount <= balance) {
                 balance -= amount;
@@ -39,19 +37,19 @@ class BankAccount {
             }
         }
     
-        // get balance
         double getBalance() {
             return balance;
         }
 
-        void displayAccountInfo() {
+        void displayAccountInfo() { 
             cout << "Account Holder: " << accountHolderName << endl;
             cout << "Account Number: " << accountNumber << endl;
             cout << "Current Balance: $" << balance << endl;
         }
     };
 
-    void displayMenu(bool accountCreated) {
+    //display menu function
+    void displayMenu(bool accountCreated) { 
         if (accountCreated == false)
         {
             cout << "\n1. Create Account" << endl;
@@ -70,6 +68,8 @@ class BankAccount {
         
         
     }
+
+    //separate functions for deposit, withdraw, and displayBalance
 
     void deposit(BankAccount* account){
         double depositAmount;
@@ -99,11 +99,10 @@ class BankAccount {
         string name;
         double initialDeposit;
         
-
         do
         {
             displayMenu(accountCreated);
-            try
+            try //try-catch block
             {
                 cin >> choice;
                 cin.ignore();
