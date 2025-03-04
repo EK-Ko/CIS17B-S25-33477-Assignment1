@@ -43,80 +43,115 @@ class BankAccount {
         double getBalance() {
             return balance;
         }
+
+        void displayAccountInfo() {
+            cout << "Account Holder: " << accountHolderName << endl;
+            cout << "Account Number: " << accountNumber << endl;
+            cout << "Current Balance: $" << balance << endl;
+        }
     };
 
-    int main() {
-        BankAccount* account = nullptr;
-        int choice;
-    
-        cout << "Welcome to Simple Bank System" << endl;
-        cout << "1. Create Account" << endl;
-        cout << "2. Deposit Money" << endl;
-        cout << "3. Withdraw Money" << endl;
-        cout << "4. Check Balance" << endl;
-        cout << "5. Exit" << endl;
-        cout << "Enter your choice: ";
-        cin >> choice;
-        cin.ignore();
-    
-        
-        while (choice != 1) {
-            if (choice == 5) {
-                cout << "Thank you for using Simple Bank System!" << endl;
-                return 0;
-            }
-            cout << "You need to create an account first." << endl;
+    void displayMenu(bool accountCreated) {
+        if (accountCreated == false)
+        {
+            cout << "\n1. Create Account" << endl;
+            cout << "2. Deposit Money" << endl;
+            cout << "3. Withdraw Money" << endl;
+            cout << "4. Check Balance" << endl;
+            cout << "5. Exit" << endl;
             cout << "Enter your choice: ";
-            cin >> choice;
-            cin.ignore();
-        }
-    
-        // create an account
-        string name;
-        double initialDeposit;
-        cout << "Enter account holder name: ";
-        getline(cin, name);
-        cout << "Enter initial deposit: ";
-        cin >> initialDeposit;
-        cin.ignore();
-    
-        account = new BankAccount(name, initialDeposit);
-        cout << "Account created successfully!" << endl;
-    
+        }else
+        {
             cout << "\n1. Deposit Money" << endl;
             cout << "2. Withdraw Money" << endl;
             cout << "3. Check Balance" << endl;
             cout << "4. Exit" << endl;
-            
-        // loop until exit    
-        while (true) { 
-            
-            cout << "Enter your choice: ";
-            cin >> choice;
-            cin.ignore();
-    
-            switch (choice) {
-                case 1:
-                    double depositAmount;
-                    cout << "Enter amount to deposit: ";
-                    cin >> depositAmount;
-                    account->deposit(depositAmount);
-                    break;
-                case 2:
-                    double withdrawAmount;
-                    cout << "Enter amount to withdraw: ";
-                    cin >> withdrawAmount;
-                    account->withdraw(withdrawAmount);
-                    break;
-                case 3:
-                    cout << "Current Balance: $" << account->getBalance() << endl;
-                    break;
-                case 4:
-                    cout << "Thank you for using Simple Bank System!" << endl;
-                    delete account; // delete account in memory
-                    return 0;
-                default:
-                    cout << "Invalid choice! Please enter a number between 1-4." << endl;
-            }
         }
+        
+        
+    }
+
+    int main() {
+        BankAccount* account = nullptr;
+        string choice;
+        bool end  = false;
+        bool accountCreated = false;
+        
+        cout << "Welcome to Simple Bank System" << endl;
+        string name;
+        double initialDeposit;
+        
+
+        do
+        {
+            displayMenu(accountCreated);
+            try
+            {
+                cin >> choice;
+                cin.ignore();
+                int userChoice = std::stoi(choice);
+                if (accountCreated == true)
+                {
+                    userChoice += 1;
+                }
+                
+                switch (userChoice) {
+                    case 1:
+                        cout << "Enter account holder name: ";
+                        getline(cin, name);
+                        cout << "Enter initial deposit: ";
+                        cin >> initialDeposit;
+                        cin.ignore();
+                    
+                        account = new BankAccount(name, initialDeposit);
+                        cout << "Account created successfully!" << endl;
+                        accountCreated = true;
+                        break;
+                    case 2:
+                        if (accountCreated == false)
+                        {
+                            cout << "You need an account to deposit money." << endl;
+                            break;
+                        }
+                          
+                        double depositAmount;
+                        cout << "Enter amount to deposit: ";
+                        cin >> depositAmount;
+                        account->deposit(depositAmount);
+                        break;
+                    case 3:
+                        if (accountCreated == false)
+                        {
+                            cout << "You need an account to withdraw money." << endl;
+                            break;
+                        }
+                        double withdrawAmount;
+                        cout << "Enter amount to withdraw: ";
+                        cin >> withdrawAmount;
+                        account->withdraw(withdrawAmount);
+                        break;
+                    case 4:
+                        if (accountCreated == false)
+                        {
+                            cout << "You need an account to see current balance." << endl;
+                            break;
+                        }
+                        cout << "Current Balance: $" << account->getBalance() << endl;
+                        break;
+                    case 5:
+                        cout << "Thank you for using Simple Bank System!" << endl;
+                        delete account; // delete account in memory
+                        end = true;
+                        return 0;
+                    default:
+                        cout << "Invalid choice! Please enter a number between 1-5." << endl;
+                }
+            }
+            catch(const std::exception& e)
+            {
+                std::cout << "Please enter a valid number" << std::endl;
+            }
+            
+        } while (!end);
+    
     }
