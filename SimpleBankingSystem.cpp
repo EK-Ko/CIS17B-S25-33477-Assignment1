@@ -71,6 +71,24 @@ class BankAccount {
         
     }
 
+    void deposit(BankAccount* account){
+        double depositAmount;
+        cout << "Enter amount to deposit: ";
+        cin >> depositAmount;
+        account->deposit(depositAmount);
+    }
+
+    void withdraw(BankAccount* account){
+        double withdrawAmount;
+        cout << "Enter amount to withdraw: ";
+        cin >> withdrawAmount;
+        account->withdraw(withdrawAmount);
+    }
+
+    void displayBalance(BankAccount* account){
+        cout << "Current Balance: $" << account->getBalance() << endl;
+    }
+
     int main() {
         BankAccount* account = nullptr;
         string choice;
@@ -113,11 +131,7 @@ class BankAccount {
                             cout << "You need an account to deposit money." << endl;
                             break;
                         }
-                          
-                        double depositAmount;
-                        cout << "Enter amount to deposit: ";
-                        cin >> depositAmount;
-                        account->deposit(depositAmount);
+                        deposit(account);
                         break;
                     case 3:
                         if (accountCreated == false)
@@ -125,10 +139,7 @@ class BankAccount {
                             cout << "You need an account to withdraw money." << endl;
                             break;
                         }
-                        double withdrawAmount;
-                        cout << "Enter amount to withdraw: ";
-                        cin >> withdrawAmount;
-                        account->withdraw(withdrawAmount);
+                        withdraw(account);
                         break;
                     case 4:
                         if (accountCreated == false)
@@ -136,7 +147,7 @@ class BankAccount {
                             cout << "You need an account to see current balance." << endl;
                             break;
                         }
-                        cout << "Current Balance: $" << account->getBalance() << endl;
+                        displayBalance(account);
                         break;
                     case 5:
                         cout << "Thank you for using Simple Bank System!" << endl;
